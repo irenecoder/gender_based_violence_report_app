@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'user_crimerep.css' %}">
+    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+    <title>Crime Reporting Portal</title>
+</head>
+<body>
+
+    {% block content %}
+    <div class="form-container">
+        <form action="submission" method="post" enctype="application/x-www-form-urlencoded">
+            {% csrf_token %}
+            <h3>Report your crime</h3>
+            <select name="crime">
+                <option>-- Type of Crime --</option>
+                <option >Physical abuse</option>
+                <option >Sexual Assault</option>
+            </select>
+            <textarea rows="5" placeholder="Describe the crime committed in details..." name="crime_descr" required></textarea>
+            <input type="text" placeholder="Location of the crime e.g. Nairobi, Kenya" name="crime_location" required>
+            <input type="date" placeholder="Date of the crime" name="crime_date" required>
+            <button>Report Crime</button>
+        
+        </form>
+    </div>
+    {% endblock %}
+</body>
+</html>

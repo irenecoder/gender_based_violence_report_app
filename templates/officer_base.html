@@ -1,0 +1,39 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+<link rel="stylesheet" href="{% static 'styles.css' %}">
+<div class="nav-bar">
+    <nav>
+        {% if user.is_authenticated %}
+            <a href="{% url 'index' %}"><div class="logo">GBV Crime Report</div></a>
+        {% else %}
+            <a href="{% url 'off_homepage' %}"><div class="logo">GBV Crime Report</div></a>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+            <style>
+                .hide {
+                    display: none;
+                }
+                .logo {
+                    margin-right: 33%;
+                }
+            </style>
+            <a class="hide" href="{% url 'user_login' %}">User login</a>
+            <a class="hide" href=" url 'off_login'">Official login</a>
+            <a class="hide" href="{% url 'user_registration' %}">User Registration</a>
+            <a class="hide" href="{% url 'user_registration' %}">Official Registration</a>
+        {% else %}
+            <a href="#">View Reported Crimes</a>
+            <a href="#">Crime Status</a>
+            <a href="{% url 'logout' %}">Logout</a>
+        {% endif %}
+
+    </nav>
+</div>
+
+{% block content %}
+{% endblock %}
+<br><br><br>
+<div class="footer">
+    <footer>&copy; {% now 'Y' %} GBV Crime Report | ALL RIGHTS RESERVED.</footer>
+</div>
