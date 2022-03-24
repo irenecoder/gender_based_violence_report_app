@@ -6,12 +6,13 @@ from django.contrib import messages
 from django.contrib.auth.models import auth
 from .forms import CreateUserForm
 from django.contrib.auth import authenticate,login,logout
+import sys
 
 
-
+sys.setrecursionlimit(1500)
 def register(request):
     if request.user.is_authenticated:
-        return redirect('index')
+        return redirect('gbvcrimereportapp:index')
     else:
         form = CreateUserForm()
 
@@ -27,7 +28,7 @@ def register(request):
         return render(request,'register.html',context)
 def login(request):
     if request.user.is_authenticated:
-        return redirect('index')
+        return redirect('gbvcrimereportapp:index')
     else:
 
         if request.method == 'POST':
@@ -46,8 +47,12 @@ def login(request):
         context={}
         return render(request,'login.html',context)
 def logout(request):
-    logout(request)
-    return redirect('index')
+    auth.logout(request)
+    # messages.info(request)
+    return redirect('gbvcrimereportapp:index')
+# def logout(request):
+#     logout(request)
+#     return redirect('gbvcrimereportapp:index')
 
 # from django.shortcuts import render, redirect
 # from django.contrib import messages
