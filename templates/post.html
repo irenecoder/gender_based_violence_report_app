@@ -1,34 +1,204 @@
-{% extends 'base.html' %}
-{% load static %}
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'user_crimerep.css' %}">
-    <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
-    <title>Crime Reporting Portal</title>
-</head>
-<body>
-
-    {% block content %}
-    <div class="form-container">
-        <form action="submission" method="post" enctype="application/x-www-form-urlencoded">
-            {% csrf_token %}
-            <h3>Report your crime</h3>
-            <select name="crime">
-                <option>-- Type of Crime --</option>
-                <option >Physical abuse</option>
-                <option >Sexual Assault</option>
+{% extends 'base.html'%}
+{% load static %}
+{%block content%}
+<html>
+  <head>
+    <title>Report Form</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <style>
+      html, body {
+      min-height: 100%;
+      }
+      body, div, form, input, select, p { 
+      padding: 0;
+      margin: 0;
+      outline: none;
+      font-family: Roboto, Arial, sans-serif;
+      font-size: 14px;
+      color: #666;
+      line-height: 22px;
+      }
+      h1 {
+      margin: 15px 0;
+      font-weight: 400;
+      }
+      .testbox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: inherit;
+      padding: 3px;
+      }
+      form {
+      width: 50%;
+      padding: 20px;
+      background: #fff;
+      box-shadow: 0 2px 5px #ccc; 
+      }
+      input, select, textarea {
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      }
+      input {
+      width: calc(100% - 10px);
+      padding: 5px;
+      }
+      select {
+      width: 100%;
+      padding: 7px 0;
+      background: transparent;
+      }
+      textarea {
+      width: calc(100% - 6px);
+      }
+      .item {
+      position: relative;
+      margin: 10px 0;
+      }
+      .item:hover p, .item:hover i {
+      color: #095484;
+      }
+      input:hover, select:hover, textarea:hover {
+      box-shadow: 0 0 5px 0 #095484;
+      }
+      input[type="date"]::-webkit-inner-spin-button {
+      display: none;
+      }
+      input[type="time"]::-webkit-inner-spin-button {
+      margin: 2px 22px 0 0;
+      }
+      .item i, input[type="date"]::-webkit-calendar-picker-indicator {
+      position: absolute;
+      font-size: 20px;
+      color: #a9a9a9;
+      }
+      .item i {
+      right: 1%;
+      top: 30px;
+      z-index: 1;
+      }
+      [type="date"]::-webkit-calendar-picker-indicator {
+      right: 0;
+      z-index: 2;
+      opacity: 0;
+      cursor: pointer;
+      }
+      .btn-block {
+      margin-top: 20px;
+      text-align: center;
+      }
+      button {
+      width: auto;
+      padding: 10px;
+      border: none;
+      -webkit-border-radius: 5px; 
+      -moz-border-radius: 5px; 
+      border-radius: 5px; 
+      background-color: #095484;
+      font-size: 16px;
+      color: #fff;
+      cursor: pointer;
+      }
+      button:hover {
+      background-color: #0666a3;
+      }
+      @media (min-width: 568px) {
+      .name-item, .city-item {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      }
+      .name-item input, .city-item input {
+      width: calc(50% - 20px);
+      }
+      .city-item select {
+      width: calc(50% - 8px);
+      }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="testbox">
+      <form  method="post"action="{% url 'gbvcrimereportapp:reports'%}">
+        {% csrf_token%}
+        <h1>Gender Based Violence Form</h1>
+        <div class="item">
+          <p>Complainant's Name</p>
+          <div class="name-item">
+            <input type="text" name="first-name" placeholder="First" />
+            <input type="text" name="last-name" placeholder="Last" />
+          </div>
+        </div>
+        <div class="item"> 
+           <p>location</p>
+           {% comment %} <input type="text" name="name" placeholder="Street address"/>
+          <input type="text" name="name" placeholder="Street address line 2"/>
+          <div class="city-item"> {% endcomment %}
+            <input type="text" name="location" placeholder="County" />
+            {% comment %} <input type="text" name="name" placeholder="Region" />
+            <input type="text" name="name" placeholder="Postal / Zip code" />
+            <select>
+              <option value="">Country</option>
+              <option value="1">Russia</option>
+              <option value="2">Germany</option>
+              <option value="3">France</option>
+              <option value="4">Armenia</option>
+              <option value="5">USA</option>
             </select>
-            <textarea rows="5" placeholder="Describe the crime committed in details..." name="crime_descr" required></textarea>
-            <input type="text" placeholder="Location of the crime e.g. Nairobi, Kenya" name="crime_location" required>
-            <input type="date" placeholder="Date of the crime" name="crime_date" required>
-            <button>Report Crime</button>
-        
-        </form>
+          </div>
+        </div> 
+        <div class="item"> {% endcomment %}
+          <p>Email</p>
+          <input type="text" name="email"/>
+        </div>
+        <div class="item">
+          <p>Telephone number where you can be reached</p>
+          <input type="text" name="phone"/>
+        </div>
+        <div class="item">
+          <p>Incident Date</p>
+          <input type="date" name="date" required/>
+          <i class="fas fa-calendar-alt"></i>
+        </div>
+        <div class="item">
+          <p>Incident Time</p>
+          <input type="time" name="time" required/>
+          <i class="fas fa-clock"></i>
+        </div>
+        <div class="item">
+          <p>What best describes the type of gbv</p>
+          <select>
+            <option value="">Please select</option>
+            <option value="1">Female genital mutilation</option>
+            <option value="2">child labour</option>
+            <option value="3">Domestic violence</option>
+            <option value="6">Other</option>
+          </select>
+        </div>
+        <div class="item">
+          <p>Name of local elder/chief</p>
+          <input type="text" name="leader"/>
+        </div>
+        {% comment %} <div class="item">
+          <p>Pharmacy Involved</p>
+          <input type="text" name="name"/>
+        </div> {% endcomment %}
+        <div class="item">
+          <p>Complaint filed on behalf of</p>
+          <input type="text" name="victim"/>
+        </div>
+        <div class="item">
+          <p>What happened? Be as specific as possible, including dates, names, etc.</p>
+          <textarea rows="5"></textarea>
+        </div>
+        <div class="btn-block">
+          <button type="submit" href="{% url 'gbvcrimereportapp:reports'%}">Send Report</button>
+        </div>
+      </form>
     </div>
-    {% endblock %}
-</body>
+  </body>
 </html>
+{% endblock content%}

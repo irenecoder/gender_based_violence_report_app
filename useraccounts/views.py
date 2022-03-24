@@ -1,58 +1,130 @@
+from django.contrib.auth import authenticate,login
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.forms import inlineformset_factory
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib import messages
+from django.contrib.auth import authenticate,login
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import auth
-from .forms import CreateUserForm
-from django.contrib.auth import authenticate,login,logout
-import sys
-
-
-sys.setrecursionlimit(1500)
-def register(request):
+ 
+def registerPage(request):
+ 
     if request.user.is_authenticated:
-        return redirect('gbvcrimereportapp:index')
+        return redirect('index')
+     
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+ 
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(username = username,password = password)
+            login(request, user)
+            return redirect('useraccounts:login')
+         
+        else:
+            return render(request,'register.html',{'form':form})
+     
     else:
-        form = CreateUserForm()
+        form = UserCreationForm()
+        return render(request,'register.html',{'form':form})
 
-        if request.method=='POST':
-            form = CreateUserForm(request.POST)
-            if form.is_valid():
-                form.save()
-                user=form.cleaned_data.get('username')
-                messages.success(request,'account was created for '+user)
-                return redirect('login')
-
-        context={'form':form}
-        return render(request,'register.html',context)
-def login(request):
+def loginPage(request):
     if request.user.is_authenticated:
-        return redirect('gbvcrimereportapp:index')
+        return redirect('index')
+     
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username =username, password = password)
+ 
+        if user is not None:
+            login(request,user)
+            return redirect('index')
+        else:
+            form = AuthenticationForm()
+            return render(request,'login.html',{'form':form})
+     
     else:
-
-        if request.method == 'POST':
-            username=request.POST.get('username')
-            password=request.POST.get('password')
-
-            user = authenticate(request,username=username,password=password)
-
-            if user is not None:
-                login(request,user)
-                return redirect('index')
-            else:
-                messages.info(request,'username or password is incorrect')
-                context={}
-                return render(request,'login.html',context)
-        context={}
-        return render(request,'login.html',context)
+        form = AuthenticationForm()
+        return render(request, 'login.html', {'form':form})
 def logout(request):
     auth.logout(request)
     # messages.info(request)
     return redirect('gbvcrimereportapp:index')
+
+
+
+
+
+
+
+
+# from django.shortcuts import render, redirect
+# from django.http import HttpResponse
+# from django.forms import inlineformset_factory
+# from django.contrib.auth.forms import UserCreationForm
+# from django.contrib import messages
+# from django.contrib.auth.models import auth
+# from .forms import CreateUserForm
+# from django.contrib.auth import authenticate,login,logout
+# import sys
+
+
+# sys.setrecursionlimit(1500)
+# def registerPage(request):
+#     if request.user.is_authenticated:
+#         return redirect('gbvcrimereportapp:index')
+    
+
+#     if request.method=='POST':
+#         form = CreateUserForm(request.POST)
+
+#         if form.is_valid():
+#             form.save()
+#             username=form.cleaned_data.get('username')
+#             password=form.cleaned_data('password1')
+#             user = authenticate(username=username,passord=password)
+#             login(request, user)
+
+#             messages.success(request,'account was created for '+user)
+#             return redirect('useraccounts:login')
+
+#         else:
+#             return render(request,'register.html',{'form':form})
+#     else:
+#         form = CreateUserForm()       
+#         return render(request,'register.html',{'form':form})
+# def loginPage(request):
+#     if request.user.is_authenticated:
+#         return redirect('gbvcrimereportapp:index')
+    
+
+#     if request.method == 'POST':
+#         username=request.POST.get('username')
+#         password=request.POST.get('password')
+
+#         user = authenticate(request,username=username,password=password)
+
+#         if user is not None:
+#             login(request,user)
+#             return redirect('index')
+#         else:
+#             form=CreateUserForm()  
+#             messages.info(request,'username or password is incorrect')
+#             return render(request,'login.html',{'form':form})
+#     else:            
+#         form = CreateUserForm()  
+#         return render(request,'login.html',{'form':form})
+# def logout(request):
+#     auth.logout(request)
+#     # messages.info(request)
+#     return redirect('gbvcrimereportapp:index')
 # def logout(request):
 #     logout(request)
 #     return redirect('gbvcrimereportapp:index')
+
+
+
 
 # from django.shortcuts import render, redirect
 # from django.contrib import messages

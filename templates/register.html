@@ -135,7 +135,7 @@
   </head>
   <body>
     <div class="main-block">
-    <form method="post" action="{% url 'useraccounts:login'%}">
+    <form method="post" action="">
       {% csrf_token%}
 
       <h1>Create account</h1>
@@ -144,11 +144,11 @@
           <h3>Account Details</h3>
         </legend>
         <div  class="account-details">
-            <div><label>{{form.username.label}}</label><input type="text" name="name" required></div> 
-          <div><label>{{form.email.label}}</label><input type="text" name="name" required></div>
-          <div><label>{{form.password1.label}}</label><input type="password" name="name" required></div>
+            <div><label>{{form.username.label}}</label><input type="text" name="username" required></div> 
+          <div><label>{{form.email.label}}</label><input type="text" name="email" required></div>
+          <div><label>{{form.password1.label}}</label><input type="password" name="password1" required></div>
           {% comment %} <div><label>Repeat email*</label><input type="text" name="name" required></div> {% endcomment %}
-          <div><label>{{form.password2.label}}</label><input type="password" name="name" required></div>
+          <div><label>{{form.password2.label}}</label><input type="password" name="password2" required></div>
         </div>
       </fieldset>
       {% comment %} <fieldset>
