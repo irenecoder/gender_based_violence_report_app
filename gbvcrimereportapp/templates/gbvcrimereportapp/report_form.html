@@ -122,22 +122,22 @@
   </head>
   <body>
     <div class="testbox">
-      <form  method="post"action="{% url 'gbvcrimereportapp:reports'%}">
+      <form  method="post">
         {% csrf_token%}
         <h1>Gender Based Violence Form</h1>
-        <div class="item">
-          <p>Complainant's Name</p>
+         <div class="item">
+          <p>{{form.report_title.label}}</p>
           <div class="name-item">
-            <input type="text" name="first-name" placeholder="First" />
-            <input type="text" name="last-name" placeholder="Last" />
+            <input type="text" name="report_title" placeholder="Title" />
+            {% comment %} <input type="text" name="last-name" placeholder="Last" /> {% endcomment %}
           </div>
         </div>
-        <div class="item"> 
-           <p>location</p>
+        <div class="item">
+           <p>{{form.crime_location.label}}</p>
            {% comment %} <input type="text" name="name" placeholder="Street address"/>
           <input type="text" name="name" placeholder="Street address line 2"/>
           <div class="city-item"> {% endcomment %}
-            <input type="text" name="location" placeholder="County" />
+            <input type="text" name="crime_location" placeholder="County" />
             {% comment %} <input type="text" name="name" placeholder="Region" />
             <input type="text" name="name" placeholder="Postal / Zip code" />
             <select>
@@ -151,36 +151,37 @@
           </div>
         </div> 
         <div class="item"> {% endcomment %}
-          <p>Email</p>
+          {% comment %} <p>Email</p>
           <input type="text" name="email"/>
+        </div> {% endcomment %}
+        <div class="item">
+          <p>{{form.phone_no.label}}</p>
+          <input type="text" name="phone_no"/>
         </div>
         <div class="item">
-          <p>Telephone number where you can be reached</p>
-          <input type="text" name="phone"/>
-        </div>
-        <div class="item">
-          <p>Incident Date</p>
-          <input type="date" name="date" required/>
+          <p>{{form.crime_date.label}}</p>
+          <input type="date" name="crime_date" required/>
           <i class="fas fa-calendar-alt"></i>
         </div>
         <div class="item">
           <p>Incident Time</p>
-          <input type="time" name="time" required/>
+          <input type="time" name="time_crime" required/>
           <i class="fas fa-clock"></i>
         </div>
         <div class="item">
-          <p>What best describes the type of gbv</p>
-          <select>
+          <p>{{form.type_of_crime.label}}</p>
+          <input type="text" name="type_of_crime"/>
+          {% comment %} <select>
             <option value="">Please select</option>
-            <option value="1">Female genital mutilation</option>
-            <option value="2">child labour</option>
-            <option value="3">Domestic violence</option>
-            <option value="6">Other</option>
-          </select>
+            <option value="1" name="type_of_crime">Female genital mutilation</option>
+            <option value="2"name="type_of_crime">child labour</option>
+            <option value="3"name="type_of_crime">Domestic violence</option>
+            <option value="6"name="type_of_crime">Other</option>
+          </select> {% endcomment %}
         </div>
         <div class="item">
           <p>Name of local elder/chief</p>
-          <input type="text" name="leader"/>
+          <input type="text" name=""/>
         </div>
         {% comment %} <div class="item">
           <p>Pharmacy Involved</p>
@@ -188,13 +189,14 @@
         </div> {% endcomment %}
         <div class="item">
           <p>Complaint filed on behalf of</p>
-          <input type="text" name="victim"/>
+          <input type="text" name=""/>
         </div>
         <div class="item">
-          <p>What happened? Be as specific as possible, including dates, names, etc.</p>
-          <textarea rows="5"></textarea>
+          <p>{{form.crime_description.label}}.</p>
+          <textarea rows="5" name="crime_description"></textarea>
         </div>
         <div class="btn-block">
+          {{form.errors}}
           <button type="submit" href="{% url 'gbvcrimereportapp:reports'%}">Send Report</button>
         </div>
       </form>

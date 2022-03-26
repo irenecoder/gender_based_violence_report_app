@@ -1,4 +1,6 @@
 from django.urls import path
+# from .views import ReportCreateView
+        
 
 from .views import *
 
@@ -8,7 +10,7 @@ urlpatterns = [
     # path('user_homepage', user_homepage, name='user_homepage'),
     # path('off_homepage', officer_homepage, name='off_homepage'),
     # path('submission', confirm_submission, name='confirm'),
-    path('post/', post_report, name='post_report'),
+    path('post/',post_report, name='report_form'),
     # path('crime-history', crime_history, name='history'),
     path('reports/',reports,name='reports'),
     # path('report/',report,name='report'), 

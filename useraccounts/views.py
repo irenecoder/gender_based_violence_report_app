@@ -30,7 +30,7 @@ def registerPage(request):
 
 def loginPage(request):
     if request.user.is_authenticated:
-        return redirect('index')
+        return redirect('gbvcrimereportapp:index')
      
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -39,7 +39,7 @@ def loginPage(request):
  
         if user is not None:
             login(request,user)
-            return redirect('index')
+            return redirect('gbvcrimereportapp:index')
         else:
             form = AuthenticationForm()
             return render(request,'login.html',{'form':form})
